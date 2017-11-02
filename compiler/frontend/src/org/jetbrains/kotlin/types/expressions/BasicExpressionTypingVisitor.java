@@ -1317,6 +1317,11 @@ public class BasicExpressionTypingVisitor extends ExpressionTypingVisitor {
         }
 
         // If break or continue was possible, take condition check info as the jump info
+        components.dataFlowAnalyzer.createCheckedTypeInfo(type, contextWithExpectedType, expression);
+        // <=> checkType(TypeInfoFactoryKt.createTypeInfo(type, context), expression, context)
+        // <=> TypeInfoFactoryKt.createTypeInfo(type, context).replaceType(checkType(type), expression, context)
+        // <=> TypeInfoFactoryKT.createTypeInfo(checkType(type), expression, context
+
         return TypeInfoFactoryKt.createTypeInfo(components.dataFlowAnalyzer.checkType(type, expression, contextWithExpectedType),
                                                 dataFlowInfo,
                                                 loopBreakContinuePossible,
