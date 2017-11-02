@@ -1,0 +1,49 @@
+package
+
+package test {
+    public val a: kotlin.String!
+    public val b: kotlin.String?
+    public val c: kotlin.String
+    public val d: kotlin.String?
+    public val e: kotlin.String!
+    public val f: kotlin.String?
+    public val jsr: test.AnnotatedWithJsr
+    public val jsrNullable: test.AnnotatedWithJsr? = null
+    public val known: test.AnnotatedWithKnown
+    public val knownNullable: test.AnnotatedWithKnown? = null
+    public val notAnnotated: test.NotAnnotated
+    public val notAnnotatedNullable: test.NotAnnotated? = null
+    public fun exclExcl(): kotlin.Unit
+    public fun smartcast(): kotlin.Unit
+
+    @test.NonNullApi public open class AnnotatedWithJsr {
+        public constructor AnnotatedWithJsr()
+        public open override /*1*/ /*fake_override*/ fun equals(/*0*/ other: kotlin.Any?): kotlin.Boolean
+        public open fun getString(): kotlin.String!
+        public open override /*1*/ /*fake_override*/ fun hashCode(): kotlin.Int
+        public open override /*1*/ /*fake_override*/ fun toString(): kotlin.String
+    }
+
+    public open class AnnotatedWithKnown {
+        public constructor AnnotatedWithKnown()
+        public open override /*1*/ /*fake_override*/ fun equals(/*0*/ other: kotlin.Any?): kotlin.Boolean
+        @javax.annotation.Nonnull public open fun getString(): kotlin.String
+        public open override /*1*/ /*fake_override*/ fun hashCode(): kotlin.Int
+        public open override /*1*/ /*fake_override*/ fun toString(): kotlin.String
+    }
+
+    @kotlin.annotation.Target(allowedTargets = {AnnotationTarget.CLASS, AnnotationTarget.FILE}) @javax.annotation.Nonnull @javax.annotation.meta.TypeQualifierDefault(value = {ElementType.METHOD, ElementType.PARAMETER}) @kotlin.annotation.Retention(value = AnnotationRetention.RUNTIME) public final annotation class NonNullApi : kotlin.Annotation {
+        public constructor NonNullApi()
+        public open override /*1*/ /*fake_override*/ fun equals(/*0*/ other: kotlin.Any?): kotlin.Boolean
+        public open override /*1*/ /*fake_override*/ fun hashCode(): kotlin.Int
+        public open override /*1*/ /*fake_override*/ fun toString(): kotlin.String
+    }
+
+    public open class NotAnnotated {
+        public constructor NotAnnotated()
+        public open override /*1*/ /*fake_override*/ fun equals(/*0*/ other: kotlin.Any?): kotlin.Boolean
+        public open fun getString(): kotlin.String!
+        public open override /*1*/ /*fake_override*/ fun hashCode(): kotlin.Int
+        public open override /*1*/ /*fake_override*/ fun toString(): kotlin.String
+    }
+}
