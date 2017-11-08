@@ -66,7 +66,7 @@ dependencies {
     testCompile(projectTests(":idea"))
     testCompile(projectTests(":generators:test-generator"))
     testCompile(commonDep("junit:junit"))
-    testCompile(preloadedDeps("kotlinx-coroutines-core"))
+    testCompile(commonDep("org.jetbrains.kotlinx", "kotlinx-coroutines-core"))
 
     testRuntime(projectDist(":kotlin-script-runtime"))
     testRuntime(projectRuntimeJar(":kotlin-compiler"))

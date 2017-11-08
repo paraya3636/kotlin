@@ -17,7 +17,8 @@ dependencies {
     compile(project(":idea:ide-common"))
     compile(project(":idea:idea-jps-common"))
     compile(project(":plugins:android-extensions-compiler"))
-    compile(preloadedDeps("kotlinx-coroutines-core", "kotlinx-coroutines-jdk8"))
+    compile(commonDep("org.jetbrains.kotlinx", "kotlinx-coroutines-core"))
+    compile(commonDep("org.jetbrains.kotlinx", "kotlinx-coroutines-jdk8"))
 }
 
 afterEvaluate {
