@@ -59,6 +59,6 @@ class KotlinLibInjectionTest : AbstractInjectionTest() {
                           ?: throw RuntimeException("Unable to get a valid path from 'ideaSdk.path' property, please point it to the Idea SDK location")
         return JdkAndMockLibraryProjectDescriptor(
                 PluginTestCaseBase.getTestDataPathBase() + "/injection/lib/", false, false, false, true,
-                listOf(File(ideaSdkPath, "/lib/annotations.jar").absolutePath))
+                listOf(File(ideaSdkPath, "lib/annotations.jar").absolutePath))
     }
 }
