@@ -31,6 +31,13 @@ class CoroutineTransformationContext(private val scope: JsScope, function: JsFun
     val controllerFieldName by lazy { scope.declareName("\$controller") }
     val returnValueFieldName by lazy { scope.declareName("\$returnValue") }
     val receiverFieldName by lazy { scope.declareName("\$this") }
+    val mainLabel by lazy {
+        mainLabelDefined = true
+        JsScope.declareTemporaryName("stateMachine")
+    }
+
+    var mainLabelDefined = false
+        private set
 
     fun getFieldName(variableName: JsName) = localVariableNameCache.getOrPut(variableName) {
         val baseId = "local\$${variableName.ident}"

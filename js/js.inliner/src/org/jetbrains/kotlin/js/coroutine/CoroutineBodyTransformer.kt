@@ -38,6 +38,7 @@ class CoroutineBodyTransformer(private val context: CoroutineTransformationConte
     private lateinit var nodesToSplit: Set<JsNode>
     private var currentCatchBlock = globalCatchBlock
     private val tryStack = mutableListOf(TryBlock(globalCatchBlock, null))
+    private var switchDepth = 0
 
     var hasFinallyBlocks = false
         get
@@ -85,6 +86,29 @@ class CoroutineBodyTransformer(private val context: CoroutineTransformationConte
         val jointBlock = CoroutineBlock()
         thenExitBlock.statements += stateAndJump(jointBlock, x)
         elseExitBlock.statements += stateAndJump(jointBlock, x)
+        currentBlock = jointBlock
+    }
+
+    override fun visit(x: JsSwitch) = splitIfNecessary(x) {
+        val switchBlock = currentBlock
+        val jointBlock = CoroutineBlock()
+
+        switchDepth++
+        withBreakAndContinue(x, jointBlock, null) {
+            for (jsCase in x.cases) {
+                val caseBlock = CoroutineBlock()
+                currentBlock = caseBlock
+
+                jsCase.statements.forEach { accept(it) }
+                currentBlock.statements += stateAndJump(jointBlock, x)
+
+                jsCase.statements.clear()
+                jsCase.statements += caseBlock.statements
+            }
+        }
+        switchDepth--
+        switchBlock.statements += x
+
         currentBlock = jointBlock
     }
 
@@ -366,7 +390,7 @@ class CoroutineBodyTransformer(private val context: CoroutineTransformationConte
         val invocationStatement = JsAstUtils.assignment(resultRef, invocation).makeStmt()
         val suspendCondition = JsAstUtils.equality(resultRef.deepCopy(), context.metadata.suspendObjectRef.deepCopy()).source(psi)
         val suspendIfNeeded = JsIf(suspendCondition, JsReturn(context.metadata.suspendObjectRef.deepCopy().source(psi)))
-        currentStatements += listOf(invocationStatement, suspendIfNeeded, JsBreak().apply { source = psi })
+        currentStatements += listOf(invocationStatement, suspendIfNeeded, JsContinue().apply { source = psi })
         currentBlock = nextBlock
     }
 
